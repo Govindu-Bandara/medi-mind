@@ -10,6 +10,7 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\Auth\AuthDoctorController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\DoctorAuthController;
 
 // Public route for the home page
 Route::get('/', function () {
@@ -18,17 +19,18 @@ Route::get('/', function () {
 
 // Routes for unauthenticated users
 Route::middleware('guest')->group(function () {
+    // Register and Login routes for modal-based validation
     Route::post('/register', [RegisterController::class, 'register'])->name('register');
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 });
 
 // Routes for authenticated users
 Route::middleware('auth')->group(function () {
-    // Dashboard
+    // Dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/doctor/dashboard', [DashboardController::class, 'doctorIndex'])->name('doctor.dashboard');
     
-    // Medicine routes
+    // Medicine management routes
     Route::get('/add-medicine/{patient_id}', [MedicineController::class, 'create'])->name('add.medicine');
     Route::post('/add-medicine/{patient_id}', [MedicineController::class, 'store'])->name('store.medicine');
     Route::get('/view-medicine/{patient_id}', [MedicineController::class, 'index'])->name('view.medicine');
@@ -36,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/update-medicine/{id}', [MedicineController::class, 'update'])->name('medicine.update');
     Route::delete('/delete-medicine/{id}', [MedicineController::class, 'destroy'])->name('delete.medicine');
     
-    // Doctor request routes
+    // Doctor request management routes
     Route::post('/doctor/accept-request/{id}', [DoctorController::class, 'acceptRequest'])->name('doctor.acceptRequest');
     Route::delete('/doctor/delete-request/{id}', [DoctorController::class, 'deleteRequest'])->name('doctor.deleteRequest');
     
@@ -50,7 +52,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Auth routes for doctor registration
-Route::post('/register-doctor', [AuthDoctorController::class, 'register'])->name('register.doctor');
+Route::post('/register-doctor', [DoctorAuthController::class, 'register'])->name('register.doctor');
 
 // Logout route
 Route::post('/logout', function () {

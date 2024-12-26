@@ -20,8 +20,6 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -29,19 +27,34 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle user authenticated event.
+     * Handle login attempt with validation.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected function authenticated(Request $request, $user)
+    public function login(Request $request)
     {
-        if ($user->role === 'doctor') {
-            return redirect()->route('doctor.dashboard');
-        } else {
-            return redirect()->route('dashboard');
+        // Validate login input
+        $validatedData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Attempt to log in
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // Authentication passed
+            $user = Auth::user();
+
+            // Redirect based on role
+            return redirect($user->role === 'doctor' ? route('doctor.dashboard') : route('dashboard'));
         }
+
+        // Authentication failed, redirect back with error and old input
+        return redirect()->back()
+            ->withInput($request->only('email')) // Retain email field value
+            ->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ]);
     }
 
     /**

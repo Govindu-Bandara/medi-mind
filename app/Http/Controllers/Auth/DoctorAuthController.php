@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class DoctorController extends Controller
+class DoctorAuthController extends Controller
 {
     public function register(Request $request)
     {
@@ -21,8 +21,6 @@ class DoctorController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        // Additional logic for doctor registration (e.g., assigning role) can be added here.
 
         return redirect()->route('home');
     }

@@ -39,6 +39,13 @@
         .btn-light {
             border: none;
         }
+        .password-indicator {
+            margin-right: 10px;
+            color: gray;
+        }
+        .password-indicator.valid {
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -63,32 +70,6 @@
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign In</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -102,26 +83,51 @@
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                   id="name" name="name" value="{{ old('name') }}" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                   id="email" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="role" class="form-label">Role</label><br>
-                            <input type="radio" id="patient" name="role" value="patient" checked>
+                            <input type="radio" id="patient" name="role" value="patient" 
+                                   @if(old('role') === 'patient') checked @endif>
                             <label for="patient">Patient</label><br>
-                            <input type="radio" id="doctor" name="role" value="doctor">
+                            <input type="radio" id="doctor" name="role" value="doctor" 
+                                   @if(old('role') === 'doctor') checked @endif>
                             <label for="doctor">Doctor</label>
+                            @error('role')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                   id="password" name="password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="password-indicators mt-2">
+                                <span class="password-indicator" id="minLength">8 characters</span>
+                                <span class="password-indicator" id="lowercase">Lowercase</span>
+                                <span class="password-indicator" id="uppercase">Uppercase</span>
+                                <span class="password-indicator" id="number">Number</span>
+                                <span class="password-indicator" id="specialChar">Special character</span>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                            <input type="password" class="form-control" 
+                                   id="password_confirmation" name="password_confirmation" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
@@ -130,7 +136,82 @@
         </div>
     </div>
 
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                   id="email" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                   id="password" name="password" required>
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('password');
+            const indicators = {
+                minLength: document.getElementById('minLength'),
+                lowercase: document.getElementById('lowercase'),
+                uppercase: document.getElementById('uppercase'),
+                number: document.getElementById('number'),
+                specialChar: document.getElementById('specialChar')
+            };
+
+            const regexPatterns = {
+                minLength: /.{8,}/,
+                lowercase: /[a-z]/,
+                uppercase: /[A-Z]/,
+                number: /\d/,
+                specialChar: /[@$!%*?&#]/
+            };
+
+            passwordInput.addEventListener('input', () => {
+                const password = passwordInput.value;
+
+                for (const key in indicators) {
+                    if (regexPatterns[key].test(password)) {
+                        indicators[key].classList.add('valid');
+                    } else {
+                        indicators[key].classList.remove('valid');
+                    }
+                }
+            });
+
+            const form = document.querySelector('#registerModal form');
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
 </body>
 </html>

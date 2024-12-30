@@ -12,14 +12,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('times', function (Blueprint $table) {
-            $table->time('time')->change(); // Change 'time' column to 'time' type
+            $table->time('time')->change(); 
         });
     }
     
     public function down()
     {
         Schema::table('times', function (Blueprint $table) {
-            $table->string('time')->change(); // Revert back to 'string' type
+            $table->string('time')->change(); 
         });
     }
     

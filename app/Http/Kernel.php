@@ -7,7 +7,6 @@ class Kernel extends HttpKernel
 {
     protected $middleware = [
         \App\Http\Middleware\TrustProxies::class,
-       // \Illuminate\Http\Middleware\PreventRequestsDuringMaintenance::class, // This should exist
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
@@ -35,7 +34,7 @@ class Kernel extends HttpKernel
     ];
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('send:medicine-reminders')->everyMinute(); // Or whatever frequency you prefer
+        $schedule->command('send:medicine-reminders')->everyMinute(); 
     }
     
 

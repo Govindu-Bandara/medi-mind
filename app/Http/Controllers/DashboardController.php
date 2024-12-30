@@ -81,6 +81,6 @@ class DashboardController extends Controller
         // Fetch medicines associated with the logged-in patient user
         $medicines = auth()->user()->medicines()->with('times')->get();
 
-        return view('viewmedicines', compact('medicines')); // Pass medicines data to the view
+        return view('viewmedicines', compact('medicines')); 
     }
 }

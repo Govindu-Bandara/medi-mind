@@ -11,7 +11,7 @@ class CreateMedicinesTable extends Migration
     Schema::create('medicines', function (Blueprint $table) {
         $table->id();
         $table->string('name');
-        $table->decimal('dosage', 8, 2); // Dosage can be decimal
+        $table->decimal('dosage', 8, 2); 
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->timestamps();
     });

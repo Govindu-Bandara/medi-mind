@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Medicine - Medi Mind</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!-- Add flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> 
     <style>
         body {
             background-color: #f8f9fa;
@@ -78,14 +78,14 @@
             gap: 10px;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> <!-- Add flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> 
     <script>
         // Initialize flatpickr for time input fields to force 24-hour format
         window.onload = function() {
             flatpickr('input[type="time"]', {
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i", // Force 24-hour format
+                dateFormat: "H:i",
             });
         };
 
@@ -116,7 +116,7 @@
             flatpickr(input, {
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i", // Force 24-hour format
+                dateFormat: "H:i", 
             });
         }
 
@@ -140,7 +140,7 @@
             flatpickr('input[type="time"]', {
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i", // Force 24-hour format
+                dateFormat: "H:i", 
             });
             addCloseButtonsToExistingFields();
         };
@@ -243,7 +243,7 @@
             flatpickr(input, {
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i", // Force 24-hour format
+                dateFormat: "H:i", 
             });
         });
 
@@ -252,7 +252,7 @@
             flatpickr('input[type="time"]', {
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i", // Force 24-hour format
+                dateFormat: "H:i", 
             });
             addCloseButtonsToExistingFields();
         };

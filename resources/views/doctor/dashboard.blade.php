@@ -80,7 +80,7 @@
 
     <div class="container">
         <h1 class="my-4">Doctor Dashboard</h1>
-        <p class="mt-3">Welcome, <strong>{{ auth()->user()->name }}</strong>!</p>
+        <p class="mt-3">Welcome, Dr.<strong>{{ auth()->user()->name }}</strong> !</p>
 
         <!-- Pending Requests -->
         <h2 class="mt-4">Pending Requests</h2>

@@ -43,13 +43,13 @@ class MedicineController extends Controller
     {
         $patient = User::findOrFail($patient_id);
         $medicines = $patient->medicines()->with('times')->get();
-        return view('viewmedicine', compact('medicines', 'patient')); // Pass medicines data to the view
+        return view('viewmedicine', compact('medicines', 'patient')); 
     }
 
     public function edit($id)
     {
         $medicine = Medicine::findOrFail($id);
-        return view('editmedicine', compact('medicine')); // Ensure 'editmedicine.blade.php' exists in the resources/views folder
+        return view('editmedicine', compact('medicine'));
     }
 
     public function update(Request $request, $id)

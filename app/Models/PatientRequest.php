@@ -9,7 +9,7 @@ class PatientRequest extends Model
 {
     use HasFactory;
 
-    protected $table = 'requests'; // Reference the existing requests table
+    protected $table = 'requests'; 
 
     protected $fillable = [
         'patient_id', 'doctor_id', 'status',

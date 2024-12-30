@@ -14,7 +14,7 @@ use App\Http\Controllers\DoctorAuthController;
 
 // Public route for the home page
 Route::get('/', function () {
-    return view('home');
+    return view('home'); 
 });
 
 // Routes for unauthenticated users

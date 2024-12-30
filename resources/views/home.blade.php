@@ -126,8 +126,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" 
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" 
                                    id="password_confirmation" name="password_confirmation" required>
+                            @error('password_confirmation')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div id="passwordMatchError" class="text-danger d-none">Passwords do not match</div>
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
@@ -175,6 +179,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const passwordInput = document.getElementById('password');
+            const passwordConfirmationInput = document.getElementById('password_confirmation');
             const indicators = {
                 minLength: document.getElementById('minLength'),
                 lowercase: document.getElementById('lowercase'),
@@ -182,7 +187,6 @@
                 number: document.getElementById('number'),
                 specialChar: document.getElementById('specialChar')
             };
-
             const regexPatterns = {
                 minLength: /.{8,}/,
                 lowercase: /[a-z]/,
@@ -192,10 +196,8 @@
             };
 
             passwordInput.addEventListener('input', () => {
-                const password = passwordInput.value;
-
                 for (const key in indicators) {
-                    if (regexPatterns[key].test(password)) {
+                    if (regexPatterns[key].test(passwordInput.value)) {
                         indicators[key].classList.add('valid');
                     } else {
                         indicators[key].classList.remove('valid');
@@ -203,11 +205,23 @@
                 }
             });
 
+            passwordConfirmationInput.addEventListener('input', () => {
+                const passwordMatchError = document.getElementById('passwordMatchError');
+                if (passwordInput.value !== passwordConfirmationInput.value) {
+                    passwordMatchError.classList.remove('d-none');
+                } else {
+                    passwordMatchError.classList.add('d-none');
+                }
+            });
+
             const form = document.querySelector('#registerModal form');
             form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
+                if (form.checkValidity() === false || passwordInput.value !== passwordConfirmationInput.value) {
                     event.preventDefault();
                     event.stopPropagation();
+                    if (!document.getElementById('passwordMatchError').classList.contains('d-none')) {
+                        document.getElementById('passwordMatchError').classList.remove('d-none');
+                    }
                 }
                 form.classList.add('was-validated');
             });
